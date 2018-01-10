@@ -10,36 +10,47 @@ function getRandomArray(array) {
   return array
 }
 
-const projectRoot = path.resolve(__dirname, '../')
-const wordData = fs.readFileSync(projectRoot + '/word.txt','utf-8')
-const nickNameData = fs.readFileSync(projectRoot + '/nickname.txt', 'utf-8')
-const allWord = wordData.split('\n')
-const allNameArray = nickNameData.split('\n')
-let keyIndex = 0
-let nameIndex = 0
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
 
-let allKeys = allWord.map(w => {
-  return w.split(':')
-})
-
-let allNames = getRandomArray(allNameArray)
-allKeys = getRandomArray(allKeys)
-
-
+const projectRoot = path.resolve(__dirname, '../data')
 console.log('projectRoot:', projectRoot)
-console.log('allGameKeyLength: ', allKeys.length)
-console.log('allNameLength: ', allNames.length)
+const wfs = fs.readdirSync(projectRoot+'/json', 'utf-8')
+let wordFiles = wfs.map(wf =>{
+    return wf.substr(0, wf.length - 5)
+}) 
+console.log('wordFiles:', wordFiles)
+
+const nickNameData = fs.readFileSync(projectRoot + '/nickname.txt', 'utf-8')
+const allNameArray = nickNameData.split('\n')
+let nameIndex = 0
+let allNames = getRandomArray(allNameArray)
+
+// 生成json词库
+// const tempData = fs.readFileSync(projectRoot + '../template.txt', 'utf-8')
+// console.log(tempData)
+// const tempArray = tempData.split('\n')
+// let allData = getRandomArray(tempArray)
+// const jsonData = JSON.stringify(allData, 0, 4);
+// fs.writeFileSync(projectRoot + '/template.json',jsonData)
+// console.log(jsonData)
+
 export default {
-  getNextKey () {
-    let keyWord = allKeys[keyIndex++]
-    if (!keyWord) {
-      allKeys = getRandomArray(allKeys)
-      keyIndex = 0
-      keyWord = allKeys[keyIndex++]
-    }
-    return keyWord
+  getNextKey() {
+    const fileName = wordFiles[getRandomInt(wordFiles.length - 1)]
+    const filePath = fs.readFileSync(projectRoot + '/json/' + fileName + '.json', 'utf-8')
+    const allWord = JSON.parse(filePath)
+    let allKeysMap = new Map()
+    allKeysMap.set(fileName, allWord)
+    let keyArrays = allKeysMap.get(fileName)
+    // console.log('keyArrays:', keyArrays)
+    let nextKey = [keyArrays[getRandomInt(keyArrays.length - 1)], fileName]
+    console.log('nextKey:', nextKey)
+
+    return nextKey
   },
-  getNextName () {
+  getNextName() {
     let keyWord = allNames[nameIndex++]
     if (!keyWord) {
       allNames = getRandomArray(allNames)

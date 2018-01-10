@@ -17,7 +17,7 @@ export default {
       })
       console.log('user login:', sessionUser.username)
       global.$emit('userLogin', ctx)
-    }
+    } 
     if (user.token) {
       const offLineUser = userMap[user.token]
       if (offLineUser) {

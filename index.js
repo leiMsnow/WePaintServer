@@ -37,4 +37,3 @@ wsServer.on('connection', ws => {
 })
 
 console.log('websocket start:', wsServer.options.port)
-// DataService.getNextKey()

@@ -28,12 +28,12 @@ let nameIndex = 0
 let allNames = getRandomArray(allNameArray)
 
 // 生成json词库
-// const tempData = fs.readFileSync(projectRoot + '../template.txt', 'utf-8')
+// const tempData = fs.readFileSync(projectRoot + '/template.txt', 'utf-8')
 // console.log(tempData)
 // const tempArray = tempData.split('\n')
 // let allData = getRandomArray(tempArray)
 // const jsonData = JSON.stringify(allData, 0, 4);
-// fs.writeFileSync(projectRoot + '/template.json',jsonData)
+// fs.writeFileSync(projectRoot + '/json/xxx.json',jsonData)
 // console.log(jsonData)
 
 export default {
